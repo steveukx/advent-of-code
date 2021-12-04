@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { anArray, readInputFrom } from './__fixtures__';
+import { anArray, readInputFrom } from '../__fixtures__';
 
 describe('Year 2021: Day 4', () => {
 

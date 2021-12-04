@@ -1,4 +1,4 @@
-import { anArray, readInputFrom, toLines } from './__fixtures__';
+import { anArray, readInputFrom, toLines } from '../__fixtures__';
 
 describe('Year 2021: Day 3', () => {
 

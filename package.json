@@ -1,4 +1,29 @@
 {
+  "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/tests/"
+    ],
+    "testMatch": [
+      "**/tests/**/*.spec.*"
+    ]
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "@babel/preset-typescript"
+    ]
+  },
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",

@@ -1,4 +1,4 @@
-import { readInputFrom, sum } from './__fixtures__';
+import { readInputFrom, sum } from '../__fixtures__';
 
 describe('Year 2021: Day 1', () => {
     const sample = [199, 200, 208, 210, 200, 207, 240, 269, 260, 263];
