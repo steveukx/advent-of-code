@@ -210,12 +210,18 @@ describe('day-4', () => {
 
         it('gets first gold star', () => {
             givenInputData();
-            throw { questionOne: questionOne() };
+            const result =  questionOne();
+
+            console.log(`Day 4: Question 1: ${result}`);
+            expect(result).toBeGreaterThan(0);
         });
 
         it('gets first gold star', () => {
             givenInputData();
-            throw { questionTwo: questionTwo() };
+            const result =  questionTwo();
+
+            console.log(`Day 4: Question 2: ${result}`);
+            expect(result).toBeGreaterThan(0);
         });
 
         function questionOne() {
