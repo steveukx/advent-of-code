@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { anArray, readInputFrom } from './__fixtures__';
 
-describe('day-4', () => {
+describe('Year 2021: Day 4', () => {
 
     class Num extends EventEmitter {
         private used = false;
@@ -210,18 +210,12 @@ describe('day-4', () => {
 
         it('gets first gold star', () => {
             givenInputData();
-            const result =  questionOne();
-
-            console.log(`Day 4: Question 1: ${result}`);
-            expect(result).toBeGreaterThan(0);
+            expect(questionOne()).toBe(69579);
         });
 
         it('gets first gold star', () => {
             givenInputData();
-            const result =  questionTwo();
-
-            console.log(`Day 4: Question 2: ${result}`);
-            expect(result).toBeGreaterThan(0);
+            expect(questionTwo()).toBe(14877);
         });
 
         function questionOne() {
