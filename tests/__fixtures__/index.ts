@@ -11,6 +11,10 @@ export function readInputFrom(year: number, day: number, kind: InputDataKind) {
     return readFileSync(filePath(year, day, kind), 'utf8');
 }
 
+export function toLines(input: string): string[] {
+    return input.trimEnd().split('\n');
+}
+
 export function anArray<T>(length: number, builder: () => T): T[] {
     return Array.from({ length }, builder);
 }
