@@ -56,7 +56,7 @@ describe('Year 2021: Day 1', () => {
             expect(getIncrementCount(sample)).toBe(7);
         });
 
-        it('gets first gold star', () => {
+        it('gets one gold star', () => {
             expect(getIncrementCount(numbersFromInput())).toBe(1387);
         });
 
@@ -64,7 +64,7 @@ describe('Year 2021: Day 1', () => {
             expect(getIncrementCount(inputToWindows(sample))).toBe(5);
         });
 
-        it('gets first gold star', () => {
+        it('gets second gold star', () => {
             expect(getIncrementCount(inputToWindows(numbersFromInput()))).toBe(1362);
         });
 

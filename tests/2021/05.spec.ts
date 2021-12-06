@@ -105,7 +105,7 @@ describe('Year 2021: Day 5', () => {
             expect(anyLineOverlaps(sample)).toBe(12);
         })
 
-        it('gets one gold star', () => {
+        it('gets second gold star', () => {
             expect(anyLineOverlaps(input)).toBe(19472);
         });
 

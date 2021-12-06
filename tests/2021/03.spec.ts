@@ -159,7 +159,7 @@ describe('Year 2021: Day 3', () => {
             expect(lifeSupport(sample)).toBe(230);
         });
 
-        it('gets two gold stars', () => {
+        it('gets second gold star', () => {
             expect(lifeSupport(input)).toBe(1032597);
         });
     });

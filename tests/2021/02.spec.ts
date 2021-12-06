@@ -97,7 +97,7 @@ describe('Year 2021: Day 2', () => {
             expect(navigateWithAim(sample).result).toBe(900);
         });
 
-        it('gets two gold stars', () => {
+        it('gets second gold star', () => {
             expect(navigateWithAim(input).result).toBe(1965970888);
         });
     })

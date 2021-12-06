@@ -208,12 +208,12 @@ describe('Year 2021: Day 4', () => {
             expect(questionTwo()).toBe(1924);
         });
 
-        it('gets first gold star', () => {
+        it('gets one gold star', () => {
             givenInputData();
             expect(questionOne()).toBe(69579);
         });
 
-        it('gets first gold star', () => {
+        it('gets second gold star', () => {
             givenInputData();
             expect(questionTwo()).toBe(14877);
         });
