@@ -1,6 +1,8 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
+export { neighbours } from './neighbours';
+
 type InputDataKind = 'sample' | 'input';
 
 function filePath(year: number, day: number, kind: InputDataKind) {
