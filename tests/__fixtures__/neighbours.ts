@@ -1,5 +1,5 @@
 
-export function neighbours<T>(x: number, y: number, array: T[][]): T[] {
+export function neighbours<T>(x: number, y: number, array: T[][], diagonal = true): T[] {
     const out: T[] = [];
     const above = y > 0;
     const below = y < array.length - 1;
@@ -15,17 +15,15 @@ export function neighbours<T>(x: number, y: number, array: T[][]): T[] {
     }
 
     if (above) {
-        out.push(...array[y - 1].slice(
-            left ? x - 1 : x,
-            right ? x + 2 : x + 1,
-        ));
+        left && diagonal && out.push(array[y - 1][x - 1]);
+        out.push(array[y - 1][x]);
+        right && diagonal && out.push(array[y - 1][x + 1]);
     }
 
     if (below) {
-        out.push(...array[y + 1].slice(
-            left ? x - 1 : x,
-            right ? x + 2 : x + 1,
-        ));
+        left && diagonal && out.push(array[y + 1][x - 1]);
+        out.push(array[y + 1][x]);
+        right && diagonal && out.push(array[y + 1][x + 1]);
     }
 
     return out;

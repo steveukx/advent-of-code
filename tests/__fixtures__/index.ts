@@ -1,6 +1,8 @@
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
+export * from './assertions';
+export { toNumberGrid, toGrid } from './toGrid';
 export { neighbours } from './neighbours';
 
 type InputDataKind = 'sample' | 'input';
