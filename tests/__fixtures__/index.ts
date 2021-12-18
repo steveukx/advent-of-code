@@ -59,3 +59,21 @@ export function onlyIn<T>(input: T[]): T {
     expect(input).toHaveLength(1);
     return input[0];
 }
+
+export enum Range {
+    BELOW,
+    WITHIN,
+    ABOVE,
+}
+
+export function withinRange(min: number, max: number, test: number) {
+    if (test < min) {
+        return Range.BELOW;
+    }
+
+    if (test > max) {
+        return Range.ABOVE;
+    }
+
+    return Range.WITHIN;
+}
