@@ -17,6 +17,10 @@ export function DESC(a: number, b: number) {
     return a > b ? -1 : 1
 }
 
+export function ASC(a: number, b: number) {
+    return a < b ? -1 : 1
+}
+
 export function readInputFrom(year: number, day: number, kind: InputDataKind) {
     return readFileSync(filePath(year, day, kind), 'utf8');
 }

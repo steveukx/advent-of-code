@@ -189,12 +189,12 @@ describe('Year 2021: Day 15', () => {
 
     it('plop', () => {
         const actual = calculateRisk(parseInput(sampleData));
-        expect(actual.risk).toBe(40);
+        expect(actual).toBe(40);
     });
 
     it('tries question one', () => {
         const actual = calculateRisk(parseInput(inputData));
-        expect(actual.risk).toBe(390);
+        expect(actual).toBe(390);
     });
 
     it('expands a grid', () => {
@@ -251,15 +251,10 @@ describe('Year 2021: Day 15', () => {
 67554889357866599146897761125791887223681299833479`)
     });
 
-    it('generates rating', () => {
-        const cells = toCells(parseInput(`123\n456\n789`));
-        debugger
-    })
-
     it('plop two', () => {
         const grid = parseExpandedInput(inputData);
         const actual = calculateRisk(grid);
-        expect(actual.risk).toBe(390);
+        expect(actual).toBe(390);
     });
 
 });
