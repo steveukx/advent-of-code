@@ -1,7 +1,8 @@
-import { Range, toStringArray, withinRange } from '../__fixtures__';
+import {Range, readInputFrom, toStringArray, withinRange} from '../__fixtures__';
 
 type Cube = { y1: number; x1: number; y2: number; x2: number };
 describe('14', function () {
+    const inputData = readInputFrom(2022, 14, 'input');
     const sampleData = `
         498,4 -> 498,6 -> 496,6
         503,4 -> 502,4 -> 502,9 -> 494,9
@@ -20,13 +21,16 @@ describe('14', function () {
     }
 
     function drop(grain: [number, number], cube: Cube, cells: Map<string, string>) {
-        if (withinRange(cube.x1, cube.x2, grain[0]) !== Range.WITHIN) {
+        if (withinRange(cube.x2, cube.x1, grain[0]) !== Range.WITHIN) {
             // no longer on the grid, to the void!
-            return;
+            return false;
         }
-        if (withinRange(cube.y1, cube.y2, grain[1]) !== Range.WITHIN) {
+        if (withinRange(cube.y2, cube.y1, grain[1]) !== Range.WITHIN) {
             // no longer on the grid, to the void!
-            return;
+            return false;
+        }
+        if (!can(grain, cells)) {
+            return false;
         }
 
         const next = can([grain[0], grain[1] + 1], cells) ||
@@ -38,6 +42,7 @@ describe('14', function () {
         }
 
         cells.set(grain.join(':'), 'o');
+        return true;
     }
 
     function parse(input: string) {
@@ -73,11 +78,39 @@ describe('14', function () {
     }
 
     function sand(cube: Cube, cells: Map<string, string>) {
-        const grain = [500, 0];
-
+        for (let i = 0;;i++) {
+            if (!drop([500, 0], cube, cells)) {
+                return i;
+            }
+        }
+        // return Array.from(cells.values()).filter(x => x === 'o').length;
     }
 
     it('ex1', () => {
-        parse(sampleData);
+        const x = parse(sampleData);
+        expect(sand(x.cube, x.cells)).toBe(24);
     });
+
+    it('q1', () => {
+        const x = parse(inputData);
+        expect(sand(x.cube, x.cells)).toBe(768);
+    });
+
+    it('q2', () => {
+        const x = parse(inputData);
+        const y1 = x.cube.y1 + 2;
+        let cube = {
+            x1: Number.POSITIVE_INFINITY,
+            x2: Number.NEGATIVE_INFINITY,
+            y1,
+            y2: x.cube.y2,
+        };
+
+        for (let i = x.cube.x2 - 1000, max = x.cube.x1 + 1000; i < max; i++) {
+            x.cells.set(`${i}:${y1}`, '#');
+        }
+
+        expect(sand(cube, x.cells)).toBe(26686);
+    });
+
 });
