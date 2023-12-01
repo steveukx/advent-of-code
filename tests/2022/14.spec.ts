@@ -20,7 +20,7 @@ describe('14', function () {
         return cells.has(`${x}:${y}`) ? null : [x, y];
     }
 
-    function drop(grain: [number, number], cube: Cube, cells: Map<string, string>) {
+    function drop(grain: [number, number], cube: Cube, cells: Map<string, string>): boolean {
         if (withinRange(cube.x2, cube.x1, grain[0]) !== Range.WITHIN) {
             // no longer on the grid, to the void!
             return false;

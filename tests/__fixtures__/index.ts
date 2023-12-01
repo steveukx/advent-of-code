@@ -76,7 +76,9 @@ export enum Range {
     ABOVE,
 }
 
-export function withinRange(min: number, max: number, test: number) {
+export function withinRange(min: number, max: number, test: number): Range {
+    if (min > max) return withinRange(max, min, test);
+
     if (test < min) {
         return Range.BELOW;
     }
