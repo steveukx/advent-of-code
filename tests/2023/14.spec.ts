@@ -87,7 +87,7 @@ O.#..O.#.#
 
     function parseA(input: string) {
         let flat = '';
-        const {height, width} = toTabular(input, chr => void(flat += chr));
+        const {height, width} = toTabular(input, chr => void (flat += chr));
 
         const result = tilts[0](flat, width, height);
         return SCORE(result, width, height);
@@ -95,7 +95,7 @@ O.#..O.#.#
 
     function parseB(input: string) {
         let flat = '';
-        const {height, width} = toTabular(input, chr => void(flat += chr));
+        const {height, width} = toTabular(input, chr => void (flat += chr));
         const results = new Map();
         const steps = [];
 
@@ -106,11 +106,7 @@ O.#..O.#.#
 
             if (results.has(after)) {
                 const start = steps.indexOf(after);
-                const repetitions = (1000000000 - i - 1) % (i - start + 1) + start
-
-                console.log(
-                    reduce(steps, (all, step, index) => `${all}\n${index}\t${SCORE(step, width, height)}`, '')
-                );
+                const repetitions = (1000000000 - i - 1) % (i - start + 1) + start;
 
                 return SCORE(steps[repetitions], width, height);
             }
