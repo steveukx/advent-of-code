@@ -1,5 +1,6 @@
-import { neighbours, readInputFrom, sumOf, toGrid, toLines } from '../__fixtures__';
-import { Cell, fromGrid, Grid, identity, toTabular } from '../__fixtures__/toGrid';
+import { readInputFrom, sumOf } from '../__fixtures__';
+import { toTabular } from '../__fixtures__/toGrid';
+import { reduce } from 'lodash';
 
 describe('14', function () {
     const INPUT = readInputFrom(2023, 14, 'input');
@@ -13,6 +14,10 @@ O.#..O.#.#
 .......O..
 #....###..
 #OO..#....`
+
+    type TiltFunction<R = string> = (flat: string, width: number, height: number) => R;
+    type FlattenFunction = (src: string[], width: number, height: number) => string;
+    type SliceGenerator = (input: string, width: number, height: number) => Generator<string, void, unknown>
 
     function* asRows(input: string, width: number, height: number) {
         for (let y = 0; y < height; y++) {
@@ -34,90 +39,101 @@ O.#..O.#.#
         }
     }
 
-    function tilt(input: string) {
-        const { height, width } = toTabular(input, identity);
+    const generateTilt = (asSlices: SliceGenerator, asFlat: FlattenFunction, forward: boolean): TiltFunction => {
+        return (flat, width, height) => {
+            return asFlat(
+                Array.from(asSlices(flat, width, height), (slice) => {
+                    return slice.split('#').map(blob => {
+                        const length = blob.length;
+                        const rocks = blob.replace(/\./g, '');
 
-        const flat = input.replace(/\n/g, '');
-        const rows = Array.from(asRows(flat, width, height));
-        const cols = Array.from(asColumns(flat, width, height));
-
-        debugger;
-    }
-
-    function parse(input: string) {
-        const {cols} = toTabular(input, identity);
-        const tilted = cols.map(col => {
-            const blobs = col.join('').split('#').map(blob => {
-                const length = blob.length;
-                const rocks = blob.replace(/\./g, '').padEnd(length, '.');
-
-                return rocks;
-            }).join('#').split('');
-
-           return blobs;
-        });
-        const scores = tilted.map(col => {
-            const max = col.length;
-            return col.reduceRight((score, cell, index) => {
-                if (cell === 'O') {
-                    return score + (max - index);
-                }
-
-                return score;
-            }, 0);
-        })
-
-        return {
-            cols,
-            tilted,
-            scores,
-            score: sumOf(scores),
+                        return forward ? rocks.padStart(length, '.') : rocks.padEnd(length, '.');
+                    }).join('#');
+                }),
+                width,
+                height,
+            );
         };
     }
 
+    const flattenRows: FlattenFunction = (rows) => {
+        return rows.join('');
+    }
+
+    const flattenCols: FlattenFunction = (cols, width, height) => {
+        let out = '';
+        for (let y = 0; y < height; y++) {
+            for (let x = 0; x < width; x++) {
+                out += cols[x][y];
+            }
+        }
+        return out;
+    }
+
+    const tilts = [
+        generateTilt(asColumns, flattenCols, false),
+        generateTilt(asRows, flattenRows, false),
+        generateTilt(asColumns, flattenCols, true),
+        generateTilt(asRows, flattenRows, true),
+    ];
+
+    const SCORE: TiltFunction<number> = (input, width, height) => {
+        return sumOf(
+            Array.from(asRows(input, width, height), (row, index) => {
+                return row.replace(/[^O]/g, '').length * (height - index);
+            }),
+        );
+    }
+
+    function parseA(input: string) {
+        let flat = '';
+        const {height, width} = toTabular(input, chr => void(flat += chr));
+
+        const result = tilts[0](flat, width, height);
+        return SCORE(result, width, height);
+    }
+
+    function parseB(input: string) {
+        let flat = '';
+        const {height, width} = toTabular(input, chr => void(flat += chr));
+        const results = new Map();
+        const steps = [];
+
+        for (let i = 0, before = flat; i < 1000; i++) {
+            steps.push(before);
+            const after = reduce(tilts, (chain, tilt) => tilt(chain, width, height), before);
+            results.set(before, after);
+
+            if (results.has(after)) {
+                const start = steps.indexOf(after);
+                const repetitions = (1000000000 - i - 1) % (i - start + 1) + start
+
+                console.log(
+                    reduce(steps, (all, step, index) => `${all}\n${index}\t${SCORE(step, width, height)}`, '')
+                );
+
+                return SCORE(steps[repetitions], width, height);
+            }
+
+            before = after;
+        }
+
+        throw new Error(`Unable to find repeat pattern`);
+    }
+
     it('ex1', () => {
-        tilt(EXAMPLE)
-        expect(parse(EXAMPLE).score).toBe(136);
+        expect(parseA(EXAMPLE)).toBe(136);
     })
 
-    it('ex2 a', () => {
-        const parsed = parse(EXAMPLE);
-        const borders = new Set(
-            path(parsed).map(c => c.key)
-        );
-        const enc = enclosure(parsed, borders);
-
-        expect(enc.size).toBe(1);
+    it('ex2', () => {
+        expect(parseB(EXAMPLE)).toBe(64);
     });
 
-    it('ex2 b', () => {
-        const parsed = parse(INPUT);
-        // const borders = new Set(
-        //     path(parsed).map(c => c.key)
-        // );
-        // const enc = enclosure(parsed, borders);
-
-
-        console.log(
-            fromGrid(
-                redraw(parsed, new Set(path(parsed)))
-            )
-        )
-
-
-    })
-
     it('q1', () => {
-        console.log(parse(INPUT).score);
+        console.log(parseA(INPUT));
     });
 
     it('q2', () => {
-        const parsed = parse(INPUT);
-        const borders = new Set(
-            path(parsed).map(c => c.key)
-        );
-        const enc = enclosure(parsed, borders);
-
-        console.log(enc.size);
+        console.log(parseB(INPUT));
     });
 });
