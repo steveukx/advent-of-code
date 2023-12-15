@@ -12,7 +12,6 @@ function filePath(year: number, day: number, kind: InputDataKind) {
     return resolve(__dirname, 'data', `${year}-${String(day).padStart(2, '0')}.${kind}.txt`);
 }
 
-
 export function DESC(a: number, b: number) {
     return a > b ? -1 : 1
 }
