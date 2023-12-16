@@ -2,9 +2,9 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 
 export * from './assertions';
-export { toNumberGrid, toGrid } from './toGrid';
-export { neighbours } from './neighbours';
+export * from './neighbours';
 export * from './parse';
+export * from './toGrid';
 
 type InputDataKind = 'sample' | 'input';
 

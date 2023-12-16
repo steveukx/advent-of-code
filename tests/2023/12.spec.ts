@@ -1,7 +1,6 @@
-import { neighbours, readInputFrom, toGrid, toLines } from '../__fixtures__';
-import { Cell, fromGrid, Grid } from '../__fixtures__/toGrid';
+import { fromGrid, readInputFrom, toLines } from '../__fixtures__';
 
-describe('09', function () {
+describe('12', function () {
     const INPUT = readInputFrom(2023, 12, 'input');
     const EXAMPLE = `???.### 1,1,3
 .??..??...?##. 1,1,3

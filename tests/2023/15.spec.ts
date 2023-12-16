@@ -1,5 +1,5 @@
-import { readInputFrom, sumOf } from '../__fixtures__';
 import { find, matchesProperty, pullAllBy, reduce, sumBy } from 'lodash';
+import { readInputFrom, sumOf } from '../__fixtures__';
 
 describe('15', function () {
     const INPUT = readInputFrom(2023, 15, 'input');

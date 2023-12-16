@@ -1,6 +1,5 @@
-import { readInputFrom, sumOf } from '../__fixtures__';
-import { toTabular } from '../__fixtures__/toGrid';
 import { reduce } from 'lodash';
+import { readInputFrom, sumOf, toTabular } from '../__fixtures__';
 
 describe('14', function () {
     const INPUT = readInputFrom(2023, 14, 'input');
