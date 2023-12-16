@@ -64,14 +64,13 @@ describe('16', function () {
         }
     };
 
-    const energised = (cells: Map<string, GridCell>, origin: { cell?: GridCell, fromX: number, fromY: number }, debugging = false) => {
+    const energised = (cells: Map<string, GridCell>, origin: { cell?: GridCell, fromX: number, fromY: number }) => {
         const seen = new Map<GridCell, Set<string>>();
 
         const queue = [origin];
         while (queue.length) {
             const {cell, fromX, fromY} = queue.shift()!;
             if (!cell) {
-                if (debugging) debugger;
                 continue;
             }
 
@@ -79,7 +78,6 @@ describe('16', function () {
             seen.set(cell, from);
 
             if (from.has(`${fromX}:${fromY}`)) {
-                if (debugging) debugger;
                 continue;
             }
 
@@ -88,7 +86,6 @@ describe('16', function () {
             for (const next of cell.next(fromX, fromY)) {
                 const nextCell = cells.get(next);
                 if (!nextCell) {
-                    if (debugging) debugger;
                     continue;
                 }
 
