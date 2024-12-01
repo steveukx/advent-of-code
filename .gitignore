@@ -1,2 +1,9 @@
 .idea
+
+.yarn/cache
+.yarn/install-state.gz
+
+.yarn/releases/** binary
+.yarn/plugins/** binary
+
 node_modules
