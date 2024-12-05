@@ -13,24 +13,12 @@ function filePath(year: number, day: number, kind: InputDataKind) {
     return resolve(__dirname, 'data', `${year}-${String(day).padStart(2, '0')}.${kind}.txt`);
 }
 
-export function DESC(a: number, b: number) {
-    return a > b ? -1 : 1
-}
-
-export function ASC(a: number, b: number) {
-    return a < b ? -1 : 1
-}
-
 export function readInputFrom(year: number, day: number, kind: InputDataKind) {
     return readFileSync(filePath(year, day, kind), 'utf8');
 }
 
 export function toLines(input: string): string[] {
     return input.trimEnd().split('\n');
-}
-
-export function anArray<T>(length: number, builder: () => T): T[] {
-    return Array.from({length}, builder);
 }
 
 export function sum(...numbers: Array<string | number>) {
@@ -44,7 +32,7 @@ export function sumOf(numbers: Array<string | number>) {
 }
 
 export function productOf(numbers: Array<number>) {
-    return numbers.reduce((count: number, item) => count * item);
+    return numbers.reduce((count: number, item) => count * item, 1);
 }
 
 export const factorial = Object.assign(function (distance: number) {
@@ -56,14 +44,6 @@ export const factorial = Object.assign(function (distance: number) {
 }, {
     cache: new Map<number, number>()
 });
-
-export function without<T>(input: T[], without: T[]) {
-    const remove = new Set(without);
-    const output: T[] = [];
-    input.forEach(item => remove.has(item) || output.push(item));
-
-    return output;
-}
 
 export function onlyIn<T>(input: T[]): T {
     expect(input).toHaveLength(1);
