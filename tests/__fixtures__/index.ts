@@ -13,7 +13,7 @@ function filePath(year: number, day: number, kind: InputDataKind) {
     return resolve(__dirname, 'data', `${year}-${String(day).padStart(2, '0')}.${kind}.txt`);
 }
 
-export function readInputFrom(year: number, day: number, kind: InputDataKind) {
+export function readInputFrom(year: number, day: number, kind: InputDataKind = 'input') {
     return readFileSync(filePath(year, day, kind), 'utf8');
 }
 
