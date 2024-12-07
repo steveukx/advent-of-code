@@ -17,8 +17,12 @@ export function readInputFrom(year: number, day: number, kind: InputDataKind = '
     return readFileSync(filePath(year, day, kind), 'utf8');
 }
 
-export function toLines(input: string): string[] {
-    return input.trimEnd().split('\n');
+export function toLines(input: string, { trimStart, trimEnd } = { trimStart: true, trimEnd: true }): string[] {
+    let out = trimEnd ? input.trimEnd() : input;
+    if (trimStart) {
+        out = out.trimStart();
+    }
+    return out.split('\n');
 }
 
 export function sum(...numbers: Array<string | number>) {

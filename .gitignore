@@ -7,3 +7,6 @@
 .yarn/plugins/** binary
 
 node_modules
+
+**/*.input.txt
+**/*.sample.txt
