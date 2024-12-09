@@ -1,5 +1,5 @@
-export function anArray<T>(length: number, builder: () => T): T[] {
-    return Array.from({length}, builder);
+export function anArray<T>(length: number, builder: (index: number) => T): T[] {
+    return Array.from({length}, (_, index) => builder(index));
 }
 
 export function DESC(a: number, b: number) {
@@ -29,6 +29,11 @@ export function append<T>(input: T[] | undefined, add: T): T[] {
     }
     input.push(add);
     return input;
+}
+
+export function appendItem<T>(input: T[], add: T): T {
+    input.push(add);
+    return add;
 }
 
 export function midPointValue<T>(input: T[]): T {
