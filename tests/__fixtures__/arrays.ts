@@ -31,8 +31,18 @@ export function append<T>(input: T[] | undefined, add: T): T[] {
     return input;
 }
 
-export function appendItem<T>(input: T[], add: T): T {
-    input.push(add);
+export function removeItem<T>(input: T[], remove: T): T {
+    let index = input.indexOf(remove);
+    if (index >= 0) {
+        input.splice(index, 1);
+    }
+    return remove;
+}
+
+export function appendItem<T>(input: T[], add: T, unique = false): T {
+    if (!unique || !input.includes(add)) {
+        input.push(add);
+    }
     return add;
 }
 
