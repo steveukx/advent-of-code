@@ -1,5 +1,5 @@
-import { readInputFrom, sortAsc, sumOf, toLines } from '../__fixtures__';
-import { minBy, property, sortBy } from 'lodash';
+import {readInputFrom, sumOf, toLines} from '../__fixtures__';
+import {minBy} from 'lodash';
 
 describe('13', () => {
     const EXAMPLE = `
@@ -18,37 +18,45 @@ Prize: X=7870, Y=6450
 Button A: X+69, Y+23
 Button B: X+27, Y+71
 Prize: X=18641, Y=10279
-    `.trim();
-    const OFFSET: Point = { x: 10000000000000, y: 10000000000000 };
+    `;
+    const OFFSET: Point = {x: 10000000000000, y: 10000000000000};
 
     type Point = { x: number, y: number };
+    type Win = void | { a: number; b: number; cost: number };
     type Game = {
         buttonB: Point;
         buttonA: Point;
         prize: Point;
-        win: { a: number; b: number; cost: number } | undefined
+        win: Win;
     };
 
-    function quadratic(buttonA: Point, buttonB: Point, prize: Point) {
+    /*
+        Quadratic equation... solve for a & b where AX/AY, BX/BY and PX/PY are known constants
+
+        a * AX + b * BX = PX
+        a * AY + b * BY = PY
+     */
+    function quadratic(buttonA: Point, buttonB: Point, prize: Point): Win {
         let a1 = buttonA.x, b1 = buttonB.x, c1 = prize.x;
         let a2 = buttonA.y, b2 = buttonB.y, c2 = prize.y;
 
         let determinant = a1 * b2 - a2 * b1;
         if (!determinant) return;
 
-        let determinantA = c1 * b2 - c2 * b1;
-        let determinantB = a1 * c2 - a2 * c1;
+        const determinantA = c1 * b2 - c2 * b1;
+        const determinantB = a1 * c2 - a2 * c1;
 
-        let a = determinantA / determinant;
-        let b = determinantB / determinant;
+        const a = determinantA / determinant;
+        const b = determinantB / determinant;
 
-        debugger;
-        return {
-            a, b, cost: Math.floor(a) * 3 + Math.floor(b)
-        };
+        if (Math.trunc(a) !== a || Math.trunc(b) !== b) {
+            return;
+        }
+
+        return { a, b, cost: (3 * a) + b };
     }
 
-    function walk(buttonA: Point, buttonB: Point, prize: Point) {
+    function walk(buttonA: Point, buttonB: Point, prize: Point): Win {
         const wins: Array<{ a: number, b: number, cost: number }> = [];
         for (let a = 0; (a * buttonA.x) <= prize.x; a++) {
             let b = (prize.x - a * buttonA.x) / buttonB.x;
@@ -68,8 +76,6 @@ Prize: X=18641, Y=10279
     }
 
     function game(buttonA: Point, buttonB: Point, prize: Point, gen: typeof walk): Game {
-        // 80 { x: 94, y: 34 }, 40 { x: 22, y: 67 } = { x: 8400, y: 5400 }
-
         return {
             buttonA,
             buttonB,
@@ -78,7 +84,7 @@ Prize: X=18641, Y=10279
         };
     }
 
-    function parse(input: string, offset: Point = { x: 0, y: 0 }, gen = walk) {
+    function parse(input: string, offset: Point = {x: 0, y: 0}, gen = walk) {
         const games: Game[] = [];
         for (let lines = toLines(input), i = 0, max = lines.length; i < max; i++) {
             games.push(
@@ -88,7 +94,7 @@ Prize: X=18641, Y=10279
 
         return {
             games,
-            get cost () {
+            get cost() {
                 return sumOf(
                     games.map(game => game.win?.cost || 0)
                 );
@@ -112,17 +118,16 @@ Prize: X=18641, Y=10279
     }
 
     it('example.1', () => {
-        expect(parse(EXAMPLE, undefined, quadratic).cost).toBe(480);
+        expect(parse(EXAMPLE, undefined, walk).cost).toBe(480);
     });
     it('example.2', () => {
-        expect(parse(`
-Button A: X+94, Y+34
-Button B: X+22, Y+67
-Prize: X=8400, Y=5400
-        `.trim()).cost).toBe(480);
+        expect(parse(EXAMPLE, undefined, quadratic).cost).toBe(480);
     });
     it('question.1', () => {
-        expect(parse(readInputFrom(2024,13)).cost).toBe(33481);
+        expect(parse(readInputFrom(2024, 13)).cost).toBe(33481);
+    });
+    it('question.2', () => {
+        expect(parse(readInputFrom(2024, 13), OFFSET, quadratic).cost).toBe(92572057880885);
     });
 
 })

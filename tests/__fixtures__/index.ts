@@ -3,6 +3,7 @@ import { resolve } from 'path';
 
 export * from './arrays';
 export * from './assertions';
+export * from './math';
 export * from './neighbours';
 export * from './parse';
 export * from './toGrid';

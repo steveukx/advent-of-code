@@ -1,5 +1,4 @@
-import lcm from 'compute-lcm';
-import { readInputFrom, toLines } from '../__fixtures__';
+import {lowestCommonMultiplier, readInputFrom, toLines} from '../__fixtures__';
 
 describe('08', function () {
     const INPUT = readInputFrom(2023, 8, 'input');
@@ -109,8 +108,8 @@ XXX = (XXX, XXX)`;
         }
 
         size () {
-            const lowest = lcm(
-                Array.from(this.current.values(), (x) => x.count)
+            const lowest = lowestCommonMultiplier(
+                ...Array.from(this.current.values(), (x) => x.count)
             );
 
             return lowest || 0;
