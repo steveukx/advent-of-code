@@ -73,3 +73,9 @@ export function withinRange(min: number, max: number, test: number): Range {
 
     return Range.WITHIN;
 }
+
+export function wait(duration = 1) {
+    return new Promise(ok => {
+        setTimeout(ok, duration);
+    });
+}
