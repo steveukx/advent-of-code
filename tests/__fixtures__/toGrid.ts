@@ -1,6 +1,4 @@
-function toNumber(from: string) {
-    return +from;
-}
+import {pointKey} from "./points";
 
 export type Grid<T> = Array<T>[];
 
@@ -10,22 +8,18 @@ export function toGrid<T extends any = number>(input: string, parser: (from: str
             line.split('').map((char, x) => parser(char, x, y)));
 }
 
-export function toNumberGrid(input: string) {
-    return toGrid(input, toNumber);
-}
-
 export function fromGrid<T>(input: T[][], cellGlue = '', rowGlue = '\n') {
     return input.map(row => row.join(cellGlue)).join(rowGlue);
 }
 
-export function toTabular<T extends any = number>(input: string, parser: (from: string, x: number, y: number) => T) {
+export function toTabular<T extends unknown, L extends string>(input: string, parser: (from: L, x: number, y: number) => T) {
     const rows: T[][] = [];
     const cols: T[][] = [];
     const grid = toGrid(input, (from, x, y) => {
         if (y >= rows.length) { rows.push([]) }
         if (x >= cols.length) { cols.push([]) }
 
-        const parsed = parser(from, x, y);
+        const parsed = parser(from as L, x, y);
         cols[x].push(parsed);
         rows[y].push(parsed);
 
@@ -48,6 +42,8 @@ export function identity<T>(input: T) {
 export class Cell<T> {
     public readonly key: string;
     constructor(public readonly x: number, public readonly y: number, public readonly data: T) {
-        this.key = `${x}:${y}`;
+        this.key = pointKey(this);
+        this.init();
     }
+    init () {}
 }
