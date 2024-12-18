@@ -46,6 +46,13 @@ export function appendItem<T>(input: T[], add: T, unique = false): T {
     return add;
 }
 
+export function prependItem<T>(input: T[], add: T, unique = false): T {
+    if (!unique || !input.includes(add)) {
+        input.unshift(add);
+    }
+    return add;
+}
+
 export function midPointValue<T>(input: T[]): T {
     const index = Math.floor(input.length / 2);
     return input[index];

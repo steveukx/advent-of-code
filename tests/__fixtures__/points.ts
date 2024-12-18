@@ -4,7 +4,7 @@ export const ZeroPoint: Point = Object.freeze({
     x: 0, y: 0
 })
 
-export function pointAdd(a: Point, b: Point) {
+export function pointAdd(a: Point, b: Point = { x: 0, y: 0 }) {
     return {
         x: a.x + b.x,
         y: a.y + b.y,
