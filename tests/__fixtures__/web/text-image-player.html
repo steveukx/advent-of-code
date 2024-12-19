@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<body>
+<p>
+    Sometimes you just need to look at the data know what you're seeing...
+</p>
+<button id="down">&lt;</button>
+<button id="up">&gt;</button>
+<button id="one">1</button>
+<output></output>
+<style>
+    button { font: 10px/1 Arial;}
+    button.active { font-weight: bold; }
+    output pre { font: 10px/1 monospace }
+</style>
+<script>
+   (function () {
+      let running = true;
+      let time = 0;
+      let delta = 1;
+
+      const output = document.querySelector('output');
+      output.addEventListener('click', () => (running = !running));
+
+      const numberEl = output.appendChild(document.createElement('div'));
+      const textEl = output.appendChild(document.createElement('pre'));
+
+      deltaButton(document.querySelector('#down'), -1);
+      deltaButton(document.querySelector('#up'), 1);
+
+      document.querySelector('#one').addEventListener('click', () => {
+         running = false;
+         draw(time + delta);
+      })
+
+      function deltaButton(button, deltaValue) {
+         button.addEventListener('click', () => {
+            delta = deltaValue;
+            Array.from(document.querySelectorAll('button'), (el) => el.classList.toggle('active', el === button));
+         });
+         return button;
+      }
+
+      async function draw(next) {
+         const image = await fetch(`${time = next}.txt`).then(r => r.text());
+         numberEl.textContent = `${next}`;
+         textEl.textContent = image;
+      }
+
+      setInterval(
+         async () => {
+            if (!running) {
+               return;
+            }
+
+            await draw(time + delta);
+         },
+         300
+      )
+
+   })();
+</script>
+</body>
+</html>
