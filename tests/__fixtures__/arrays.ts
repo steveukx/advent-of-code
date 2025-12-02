@@ -6,7 +6,7 @@ export function DESC(a: number, b: number) {
     return a > b ? -1 : 1
 }
 
-export function ASC(a: number, b: number) {
+export function ASC<T extends number | string>(a: T, b: T) {
     return a < b ? -1 : 1
 }
 
@@ -23,11 +23,11 @@ export function without<T>(input: T[], without: T[]) {
     return output;
 }
 
-export function append<T>(input: T[] | undefined, add: T): T[] {
+export function append<T>(input: T[] | undefined, add: T, unique = false): T[] {
     if (!input) {
         input = [];
     }
-    input.push(add);
+    appendItem(input, add, unique);
     return input;
 }
 

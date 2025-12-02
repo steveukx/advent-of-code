@@ -1,4 +1,19 @@
 
+export function wrapBetweenBounds(start: number, offset: number, lower: number, upper: number) {
+    const range = upper - lower + 1;
+    const next = start + offset;
+
+    if (next > upper) {
+        const remainder = (next - upper) % range;
+        return remainder ? lower + remainder - 1 : upper;
+    }
+    if (next < lower) {
+        const remainder = (lower - next) % range;
+        return remainder ? upper - remainder + 1 : lower;
+    }
+    return next;
+}
+
 export function greatestCommonDenominator(a: number, b: number) {
     while (b !== 0) {
         let temp = b;
